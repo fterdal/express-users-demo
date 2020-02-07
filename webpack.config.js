@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./client/index.js",
+  entry: "./client/client.js",
   mode: "development",
   devtool: "source-map",
   output: {

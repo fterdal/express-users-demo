@@ -30,6 +30,8 @@ io.on("connection", socket => {
   socket.emit("all-users", users)
 
   socket.on("new-user", user => {
+    console.log("received a user", user)
+    users.push(user)
     socket.broadcast.emit("new-user", user)
   })
 })
