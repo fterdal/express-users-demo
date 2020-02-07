@@ -1,6 +1,6 @@
 const express = require("express")
 const morgan = require("morgan")
-const homepage = require("./homepage")
+// const homepage = require("./homepage")
 
 const app = express()
 app.use(morgan("dev"))
@@ -17,9 +17,11 @@ let users = [
   { name: "Gene", favColor: "pink" }
 ]
 
-app.get("/", (req, res) => {
-  res.send(homepage(users))
-})
+// app.get("/", (req, res) => {
+//   res.send(homepage(users))
+// })
+
+app.use(express.static("public"))
 
 app.post("/", (req, res) => {
   users.push(req.body)
