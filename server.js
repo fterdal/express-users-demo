@@ -1,6 +1,6 @@
 const express = require("express")
 const morgan = require("morgan")
-// const homepage = require("./homepage")
+const socketIO = require("socket.io")
 
 const app = express()
 app.use(morgan("dev"))
@@ -17,19 +17,19 @@ let users = [
   { name: "Gene", favColor: "pink" }
 ]
 
-// app.get("/", (req, res) => {
-//   res.send(homepage(users))
-// })
-
 app.use(express.static("public"))
 
-app.post("/", (req, res) => {
-  users.push(req.body)
-  res.status(201)
-  res.redirect("/")
+const PORT = 7070
+const server = app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`)
 })
 
-const PORT = 7070
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`)
+const io = socketIO(server)
+io.on("connection", socket => {
+  console.log(socket.id, " has made a persistent connection to the server!")
+  socket.emit("all-users", users)
+
+  socket.on("new-user", user => {
+    socket.broadcast.emit("new-user", user)
+  })
 })
